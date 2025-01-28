@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clicker Game</title>
+  <style>
+    /* Styling for the target element */
+    #target {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      cursor: pointer;
+      transition: all 0.5s ease; /* Added for smooth animation */
+    }
+  </style>
+</head>
+<body>
+
+<!-- Game content in the body -->
+
+<h1>Clicker Game</h1>
+<p>Click the moving target to score points!</p>
+<p>Score: <span id="score">0</span></p>
+
+<!-- Target element that users will click on -->
+<div id="target"></div>
+
+<script>
+  // Initialize the score variable
+  let score = 0;
+
+  // Function to start the game
+  function startGame() {
+    // Get the target element by its ID
+    const target = document.getElementById('target');
+
+    // Attach a click event to the target element
+    target.onclick = function () {
+      // Increase the score when the target is clicked
+      score++;
+      // Update the score display in the HTML
+      document.getElementById('score').innerText = score;
+
+      // Decrease the size of the target
+      const newSize = target.offsetWidth - 5;
+      target.style.width = `${newSize}px`;
+      target.style.height = `${newSize}px`;
+    };
+
+    // Start continuous movement
+    setInterval(moveTarget, 1500); // Change the interval as needed
+  }
+
+  // Function to move the target to a random position within the window
+  function moveTarget() {
+    const target = document.getElementById('target');
+    // Calculate the maximum X and Y coordinates to prevent target overflow
+    const maxX = window.innerWidth - target.offsetWidth;
+    const maxY = window.innerHeight - target.offsetHeight;
+
+    // Generate new random X and Y coordinates for the target
+    const newX = Math.floor(Math.random() * maxX);
+    const newY = Math.floor(Math.random() * maxY);
+
+    // Set the new position of the target using inline styles
+    target.style.left = `${newX}px`;
+    target.style.top = `${newY}px`;
+
+
+  }
+
+  // Call the startGame function when the window has finished loading
+  window.onload = startGame;
+</script>
+
+</body>
+</html>

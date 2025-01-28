@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript onclick Event Example</title>
+</head>
+<body>
+
+    <h1>JavaScript onclick Event Example</h1>
+
+    <!-- Use onclick attribute to directly specify the function to be executed on button click -->
+    <button id="changeTextButton" onclick="changeText()">Change Text</button>
+    <p id="textToChange">Original Text</p>
+
+    <script>
+        // Function to be executed when the button is clicked
+        function changeText() {
+            // Get the paragraph element by its ID
+            let textElement = document.getElementById("textToChange");
+
+            // Change the inner HTML of the paragraph
+            textElement.innerHTML = "<strong>Text Changed!</strong>";
+        }
+    </script>
+
+</body>
+</html>

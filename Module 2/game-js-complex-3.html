@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clicker Game</title>
+  <style>
+    /* Styling for the target element */
+    #target {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      cursor: pointer;
+      transition: all 0.5s ease; /* Added for smooth animation */
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Game content in the body -->
+
+<h1>Clicker Game</h1>
+<p>Click the moving target to score points!</p>
+<p>Time Remaining: <span id="timer">120</span> seconds</p>
+<p>Score: <span id="score">0</span></p>
+
+<!-- Target element that users will click on -->
+<div id="target"></div>
+
+<script>
+  // Initialize the score and time variables
+  let score = 0;
+  let timeRemaining = 120; // 2 minutes in seconds
+
+  // Function to start the game
+  function startGame() {
+    // Get the target element by its ID
+    const target = document.getElementById('target');
+
+    // Attach a click event to the target element
+    target.onclick = function () {
+      // Increase the score when the target is clicked
+      score++;
+      // Update the score display in the HTML
+      document.getElementById('score').innerText = score;
+
+      // Change the color of the target randomly
+      const randomColor = getRandomColor();
+      target.style.backgroundColor = randomColor;
+
+      // Decrease the size of the target
+      const newSize = target.offsetWidth - 5;
+      target.style.width = `${newSize}px`;
+      target.style.height = `${newSize}px`;
+    };
+
+    // Start continuous movement
+    setInterval(moveTarget, 1500); // Change the interval as needed
+
+    // Start the timer
+    startTimer();
+  }
+
+  // Function to move the target to a random position within the window
+  function moveTarget() {
+    const target = document.getElementById('target');
+    // Calculate the maximum X and Y coordinates to prevent target overflow
+    const maxX = window.innerWidth - target.offsetWidth;
+    const maxY = window.innerHeight - target.offsetHeight;
+
+    // Generate new random X and Y coordinates for the target
+    const newX = Math.floor(Math.random() * maxX);
+    const newY = Math.floor(Math.random() * maxY);
+
+    // Set the new position of the target using inline styles
+    target.style.left = `${newX}px`;
+    target.style.top = `${newY}px`;
+  }
+
+  // Function to generate a random color
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  // Function to start the timer
+  function startTimer() {
+    const timerElement = document.getElementById('timer');
+
+    const timerInterval = setInterval(function () {
+      // Update the time remaining
+      timeRemaining--;
+
+      // Update the timer display
+      timerElement.innerText = timeRemaining;
+
+      // Check if time is up
+      if (timeRemaining <= 0) {
+        // Stop the game when time is up
+        clearInterval(timerInterval);
+        alert('Game over! Your final score is ' + score);
+      }
+    }, 1000); // Update every second
+  }
+
+  // Add an event listener to the whole document to deduct 1 point when any area other than the box is clicked
+  document.addEventListener('click', function (event) {
+    const target = document.getElementById('target');
+
+    // Check if the click is outside the target
+    if (!target.contains(event.target)) {
+      // Deduct 1 point
+      score--;
+      // Update the score display in the HTML
+      document.getElementById('score').innerText = score;
+    }
+  });
+
+  // Call the startGame function when the window has finished loading
+  window.onload = startGame;
+</script>
+
+</body>
+</html>
+
+
